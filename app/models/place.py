@@ -16,6 +16,7 @@ class Place(BaseModel):
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
 
+
     @property
     def title(self):
         return self.__title
@@ -32,8 +33,8 @@ class Place(BaseModel):
 
     @description.setter
     def description(self, value):
-        if not isinstance(value, str) or len(value) > 500:
-            raise ValueError("Description must be a string with a maximum length of 500 characters.")
+        if value is not None and not isinstance(value, str):
+            raise ValueError("Description must be a string or None.")
         self.__description = value
 
     @property
@@ -42,7 +43,7 @@ class Place(BaseModel):
 
     @price.setter
     def price(self, value):
-        if not isinstance(value, (int, float)) or value < 0:
+        if not isinstance(value, (int, float)) or value <= 0:
             raise ValueError("Price must be a positive number.")
         self.__price = value
 
@@ -52,8 +53,8 @@ class Place(BaseModel):
 
     @latitude.setter
     def latitude(self, value):
-        if not isinstance(value, (int, float)):
-            raise ValueError("Latitude must be a number.")
+        if not isinstance(value, (int, float)) or not (-90.0 <= value <= 90.0):
+            raise ValueError("Latitude must be a number between -90.0 and 90.0.")
         self.__latitude = value
 
     @property
@@ -62,8 +63,8 @@ class Place(BaseModel):
 
     @longitude.setter
     def longitude(self, value):
-        if not isinstance(value, (int, float)):
-            raise ValueError("Longitude must be a number.")
+        if not isinstance(value, (int, float)) or not (-180.0 <= value <= 180.0):
+            raise ValueError("Longitude must be a number between -180.0 and 180.0.")
         self.__longitude = value
 
     @property
@@ -72,8 +73,6 @@ class Place(BaseModel):
 
     @owner.setter
     def owner(self, value):
-        if not isinstance(value, str):
-            raise ValueError("Owner must be a string representing the owner's ID.")
         self.__owner = value
 
     def add_review(self, review):
@@ -85,9 +84,6 @@ class Place(BaseModel):
         self.amenities.append(amenity)
 
     def update(self, data):
-        """
-        Update the attributes of the Place based on a dictionary of new values.
-        """
         for key, value in data.items():
             if hasattr(self, key):
                 setattr(self, key, value)
