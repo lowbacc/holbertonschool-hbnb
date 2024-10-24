@@ -1,17 +1,16 @@
 #!/usr/bin/python3
 
 
-from models.base_model import BaseModel
+from .base_model import BaseModel
 import re
 
 
 class User(BaseModel):
-    def __init__(self, first_name, last_name, email, password):
+    def __init__(self, first_name, last_name, email):
         super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = self.set_password(password)
         self.is_admin = is_admin
 
 
