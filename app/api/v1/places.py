@@ -34,7 +34,7 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'user_id': fields.String(required=True, description='ID of the owner'),
+    'owner_id': fields.String(required=True, description='ID of the owner'),
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
@@ -57,7 +57,7 @@ class PlaceList(Resource):
         """Retrieve a list of all places"""
         # Placeholder for logic to return a list of all places
         data = facade.get_all_places()
-        return [{'id': place.id, 'latitude': place.latitude, 'longitude': place.longitude, 'user_id': place.owner_id, 'amenities': place.amenities} for place in data], 200
+        return [{'id': place.id, 'latitude': place.latitude, 'longitude': place.longitude, 'owner_id': place.owner_id, 'amenities': place.amenities} for place in data], 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -73,12 +73,6 @@ class PlaceResource(Resource):
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
-    def put(self, place_id):
-        """Update a place's information"""
-        # Placeholder for the logic to update a place by ID
-        data = facade.update_place(place_id)
-        return data, 200
-    
     def put(self, place_id):
         """Update a place's information"""
         # Placeholder for the logic to update a place by ID

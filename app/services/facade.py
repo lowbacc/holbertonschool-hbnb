@@ -55,6 +55,9 @@ class HBnBFacade:
         place = Place(**place_data)
         self.place_repo.add(place)
         return place
+        owner = self.get_user(place_data['owner_id'])
+        if not owner:
+            return None
 
 def get_place(self, place_id):
     # Placeholder for logic to retrieve a place by ID, including associated owner and amenities

@@ -12,7 +12,7 @@ class Place(BaseModel):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
+        self.owner_id = owner_id
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
 
@@ -68,12 +68,12 @@ class Place(BaseModel):
         self.__longitude = value
 
     @property
-    def owner(self):
-        return self.__owner
+    def owner_id(self):
+        return self.__owner_id
 
-    @owner.setter
-    def owner(self, value):
-        self.__owner = value
+    @owner_id.setter
+    def owner_id(self, value):
+        self.__owner_id = value
 
     def add_review(self, review):
         """Add a review to the place."""
