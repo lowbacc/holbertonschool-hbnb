@@ -1,7 +1,8 @@
 from flask_restx import Namespace, Resource, fields
-from app.services import facade
+from app.services.facade import HBnBFacade
 
 api = Namespace('amenities', description='Amenity operations')
+facade = HBnBFacade()
 
 # Define the amenity model for input validation and documentation
 amenity_model = api.model('Amenity', {
@@ -18,6 +19,7 @@ class AmenityList(Resource):
         amenity_data = api.payload
         new_amenity = facade.create_amenity(amenity_data)
         return {'id': new_amenity.id, 'name': new_amenity.name}, 201
+    
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
