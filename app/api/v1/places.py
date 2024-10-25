@@ -8,7 +8,7 @@ def validate_place_data(data):
     """Validate the place data."""
     required_fields = ['title', 'price', 'latitude', 'longitude', 'owner_id', 'amenities']
     for field in required_fields:
-        if field not in data:
+        if field not in data or data[field] is None:
             return False
     return True
 
@@ -46,7 +46,7 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         place_data = api.payload
-        if not place_data:
+        if not place_data or not validate_place_data(place_data):
             return {'error': 'Invalid input data'}, 400
     
         new_place = facade.create_place(place_data)
@@ -65,9 +65,10 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get place details by ID"""
-        # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
-        data = facade.get_place_by_id(place_id)
-        return data, 200
+        place = facade.get_place_by_id(place_id)
+        if not place:
+            return {'error': 'Place not found'}, 404
+        return place, 200
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -84,5 +85,5 @@ class PlaceResource(Resource):
         if not validate_place_data(data):
             return {'error': 'Invalid input data'}, 400
         
-        facade.update_place(place_id, data)
+        updated_place = facade.update_place(place_id, data)
         return {'message': 'Place updated successfully'}, 200

@@ -5,7 +5,7 @@ from .base_model import BaseModel
 
 
 class Place(BaseModel):
-    def __init__(self, title, description, price, latitude, longitude, owner_id):
+    def __init__(self, title, description, price, latitude, longitude, owner_id, amenities):
         super().__init__()
         self.title = title
         self.description = description
@@ -14,7 +14,7 @@ class Place(BaseModel):
         self.longitude = longitude
         self.owner_id = owner_id
         self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+        self.amenities = amenities
 
 
     @property
@@ -73,6 +73,8 @@ class Place(BaseModel):
 
     @owner_id.setter
     def owner_id(self, value):
+        if not isinstance(value, str):
+            raise ValueError("Owner ID must be a string.")
         self.__owner_id = value
 
     def add_review(self, review):
