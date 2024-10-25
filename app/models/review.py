@@ -2,17 +2,17 @@
 
 
 from .base_model import BaseModel
-from place import Place
-from user import User
+from .place import Place
+from .user import User
 
 
 class Review(BaseModel):
-    def __init__(self, text, rating, place, user):
+    def __init__(self, text, rating, place_id, user_id):
         super().__init__()
         self.text = text
         self.rating = rating
-        self.place = place
-        self.user = user
+        self.place_id = place_id
+        self.user_id = user_id
 
     @property
     def text(self):
@@ -35,21 +35,21 @@ class Review(BaseModel):
         self.__rating = value
 
     @property
-    def place(self):
-        return self.__place
+    def place_id(self):
+        return self.__place_id
 
-    @place.setter
-    def place(self, value):
-        if value is None or not isinstance(value, Place):
-            raise ValueError("Place must be a valid Place instance.")
-        self.__place = value
+    @place_id.setter
+    def place_id(self, value):
+        if value is None or not isinstance(value, str) or not value:
+            raise ValueError("Place ID is required and must be a string.")
+        self.__place_id = value
 
     @property
-    def user(self):
-        return self.__user
+    def user_id(self):
+        return self.__user_id
 
-    @user.setter
-    def user(self, value):
-        if value is None or not isinstance(value, User):
-            raise ValueError("User must be a valid User instance.")
-        self.__user = value
+    @user_id.setter
+    def user_id(self, value):
+        if value is None or not isinstance(value, str) or not value:
+            raise ValueError("User ID is required and must be a string.")
+        self.__user_id = value
